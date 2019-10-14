@@ -10,13 +10,35 @@ import SwiftUI
 
 // MARK: - Style
 
+struct PressedButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration
+            .label
+            .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
+    }
+}
+
+
+
+struct MenuButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration
+            .label
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.white, lineWidth: 1))
+            .shadow(color: .white, radius: 2)
+            .buttonStyle(PressedButtonStyle())
+
+    }
+}
+
 struct FlagButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration
             .label
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.blue, lineWidth: 1))
-            .shadow(color: .blue, radius: 2)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+            .shadow(color: .white, radius: 2)
             .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
     }
 }
@@ -32,9 +54,10 @@ struct QuestionView: View {
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding()
-                .clipShape(RoundedRectangle(cornerRadius: 2))
-                .overlay(RoundedRectangle(cornerRadius: 2).stroke(Color.blue, lineWidth: 1))
-                .shadow(color: .blue, radius: 2)
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(Color.white, lineWidth: 1))
+                .shadow(color: .white, radius: 2)
+                .offset(CGSize(width: 0, height: -20))
         }
     }
 }
@@ -44,7 +67,7 @@ struct FlagView: View {
     var action:  () -> Void
     var body: some View {
         Button(action: action) {
-            Image(country).renderingMode(.original)
+            Image(country).resizable().renderingMode(.original)
         }
         .buttonStyle(FlagButtonStyle())
     }
@@ -68,6 +91,8 @@ struct ScoreView: View {
                         Circle()
                             .frame(maxHeight: 30)
                             .foregroundColor(self.answers[number] ? Color.green : Color.red)
+                            .overlay(Circle()
+                            .stroke(Color.white, lineWidth: 1))
                     } else {
                         Circle()
                             .frame(maxHeight: 30)
@@ -85,20 +110,38 @@ struct GameView: View {
         VStack {
            QuestionView(countryName: game.correctCountry)
 
-            Spacer()
+          //  Spacer()
 
-            ForEach(0..<3) { number in
-                FlagView(country: self.game[number]) {
-                    self.game.flagTapped(number)
+            HStack(spacing: 5) {
+                VStack(spacing: 5) {
+                    ForEach((0..<3)) { number in
+                        FlagView(country: self.game[number]) {
+                            self.game.flagTapped(number)
+                        }
+                        .opacity(
+                            !self.game.showCorrectFlag ||
+                                self.game[number] == self.game.correctCountry
+                                ? 1.0
+                                : 0.3
+                        )
+                        .animation(.spring())
+                    }
                 }
-                .opacity(
-                    !self.game.showCorrectFlag ||
-                    self.game[number] == self.game.correctCountry
-                        ? 1.0
-                        : 0.3
-                )
-                .animation(.spring())
-            }
+                VStack(spacing: 5) {
+                    ForEach((3..<6)) { number in
+                        FlagView(country: self.game[number]) {
+                            self.game.flagTapped(number)
+                        }
+                        .opacity(
+                            !self.game.showCorrectFlag ||
+                                self.game[number] == self.game.correctCountry
+                                ? 1.0
+                                : 0.3
+                        )
+                            .animation(.spring())
+                    }
+                }
+            }.padding()
         }
     }
 }
@@ -124,7 +167,7 @@ struct MenuView: View {
                     .font(.largeTitle)
             }
                 // .frame(width: .infinity) Causes a crash!!!
-            .buttonStyle(FlagButtonStyle())
+            .buttonStyle(MenuButtonStyle())
         }
     }
 }
@@ -139,6 +182,8 @@ class Game: ObservableObject {
     @Published var answers: [Bool] = []
 
     @Published var gameOver = false
+
+    var countInColumn = 3
 
     public var correctCountry: String {
         countries[correctAnswer]
@@ -160,7 +205,7 @@ class Game: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
             self.showCorrectFlag = false
             self.askQuestion()
-            if self.answers.count == self.total {
+            if self.answers.count >= self.total {
                 self.gameOver = true
             }
         }
@@ -176,11 +221,11 @@ class Game: ObservableObject {
 
     // MARK: - Private
     private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US", "Ukraine"].shuffled()
-    private var correctAnswer = Int.random(in: 0...2)
+    private var correctAnswer = Int.random(in: 0...3)
 
     private func askQuestion() {
         countries.shuffle()
-        correctAnswer = Int.random(in: 0...2)
+        correctAnswer = Int.random(in: 0...3)
     }
 }
 
@@ -194,7 +239,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.blue, .black]), startPoint: .top, endPoint: .bottom)
+            AngularGradient(gradient: Gradient(colors: [Color.orange, .red, .orange, .red, .orange]), center: .bottom)
             .edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 30) {
