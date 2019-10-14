@@ -221,11 +221,11 @@ class Game: ObservableObject {
 
     // MARK: - Private
     private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US", "Ukraine"].shuffled()
-    private var correctAnswer = Int.random(in: 0...3)
+    private var correctAnswer = Int.random(in: 0...5)
 
     private func askQuestion() {
         countries.shuffle()
-        correctAnswer = Int.random(in: 0...3)
+        correctAnswer = Int.random(in: 0...5)
     }
 }
 
