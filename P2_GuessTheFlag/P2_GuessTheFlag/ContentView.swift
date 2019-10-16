@@ -67,7 +67,10 @@ struct FlagView: View {
     var action:  () -> Void
     var body: some View {
         Button(action: action) {
-            Image(country).resizable().renderingMode(.original)
+            Image(country)
+                .resizable()
+                .renderingMode(.original)
+                .aspectRatio(contentMode: .fit)
         }
         .buttonStyle(FlagButtonStyle())
     }
@@ -111,37 +114,50 @@ struct GameView: View {
            QuestionView(countryName: game.correctCountry)
 
           //  Spacer()
+            BoardView(rows: 4, columns: 3) { number in
 
-            HStack(spacing: 5) {
-                VStack(spacing: 5) {
-                    ForEach((0..<3)) { number in
-                        FlagView(country: self.game[number]) {
-                            self.game.flagTapped(number)
-                        }
-                        .opacity(
-                            !self.game.showCorrectFlag ||
-                                self.game[number] == self.game.correctCountry
-                                ? 1.0
-                                : 0.3
-                        )
-                        .animation(.spring())
-                    }
+                FlagView(country: self.game[number]) {
+                    self.game.flagTapped(number)
                 }
-                VStack(spacing: 5) {
-                    ForEach((3..<6)) { number in
-                        FlagView(country: self.game[number]) {
-                            self.game.flagTapped(number)
-                        }
-                        .opacity(
-                            !self.game.showCorrectFlag ||
-                                self.game[number] == self.game.correctCountry
-                                ? 1.0
-                                : 0.3
-                        )
-                            .animation(.spring())
-                    }
-                }
-            }.padding()
+                .opacity(
+                    !self.game.showCorrectFlag ||
+                        self.game[number] == self.game.correctCountry
+                        ? 1.0
+                        : 0.3
+                )
+                .animation(.spring())
+            }
+//
+//            HStack(spacing: 5) {
+//                VStack(spacing: 5) {
+//                    ForEach((0..<3)) { number in
+//                        FlagView(country: self.game[number]) {
+//                            self.game.flagTapped(number)
+//                        }
+//                        .opacity(
+//                            !self.game.showCorrectFlag ||
+//                                self.game[number] == self.game.correctCountry
+//                                ? 1.0
+//                                : 0.3
+//                        )
+//                        .animation(.spring())
+//                    }
+//                }
+//                VStack(spacing: 5) {
+//                    ForEach((3..<6)) { number in
+//                        FlagView(country: self.game[number]) {
+//                            self.game.flagTapped(number)
+//                        }
+//                        .opacity(
+//                            !self.game.showCorrectFlag ||
+//                                self.game[number] == self.game.correctCountry
+//                                ? 1.0
+//                                : 0.3
+//                        )
+//                            .animation(.spring())
+//                    }
+//                }
+//            }.padding()
         }
     }
 }

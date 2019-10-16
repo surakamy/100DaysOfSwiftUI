@@ -13,6 +13,7 @@
 		184392592352EBED00B2BE85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184392582352EBED00B2BE85 /* Assets.xcassets */; };
 		1843925C2352EBED00B2BE85 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1843925B2352EBED00B2BE85 /* Preview Assets.xcassets */; };
 		1843925F2352EBED00B2BE85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1843925D2352EBED00B2BE85 /* LaunchScreen.storyboard */; };
+		18BB75B523574F5300A0C376 /* GridVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BB75B423574F5300A0C376 /* GridVIew.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		1843925B2352EBED00B2BE85 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1843925E2352EBED00B2BE85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		184392602352EBED00B2BE85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18BB75B423574F5300A0C376 /* GridVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridVIew.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				184392522352EBEB00B2BE85 /* AppDelegate.swift */,
 				184392542352EBEB00B2BE85 /* SceneDelegate.swift */,
 				184392562352EBEB00B2BE85 /* ContentView.swift */,
+				18BB75B423574F5300A0C376 /* GridVIew.swift */,
 				184392582352EBED00B2BE85 /* Assets.xcassets */,
 				1843925D2352EBED00B2BE85 /* LaunchScreen.storyboard */,
 				184392602352EBED00B2BE85 /* Info.plist */,
@@ -148,6 +151,7 @@
 			files = (
 				184392532352EBEB00B2BE85 /* AppDelegate.swift in Sources */,
 				184392552352EBEB00B2BE85 /* SceneDelegate.swift in Sources */,
+				18BB75B523574F5300A0C376 /* GridVIew.swift in Sources */,
 				184392572352EBEB00B2BE85 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
