@@ -28,7 +28,6 @@ struct MenuButtonStyle: ButtonStyle {
             .overlay(Capsule().stroke(Color.white, lineWidth: 1))
             .shadow(color: .white, radius: 2)
             .buttonStyle(PressedButtonStyle())
-
     }
 }
 
@@ -36,8 +35,8 @@ struct FlagButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration
             .label
-            .clipShape(Circle())
-            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.white, lineWidth: 1))
             .shadow(color: .white, radius: 2)
             .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
     }
@@ -71,6 +70,7 @@ struct FlagView: View {
                 .resizable()
                 .renderingMode(.original)
                 .aspectRatio(contentMode: .fit)
+            //.padding()
         }
         .buttonStyle(FlagButtonStyle())
     }
@@ -114,7 +114,7 @@ struct GameView: View {
            QuestionView(countryName: game.correctCountry)
 
           //  Spacer()
-            BoardView(rows: 4, columns: 3) { number in
+            BoardView(rows: 4, columns: 4) { number in
 
                 FlagView(country: self.game[number]) {
                     self.game.flagTapped(number)
@@ -126,38 +126,8 @@ struct GameView: View {
                         : 0.3
                 )
                 .animation(.spring())
-            }
-//
-//            HStack(spacing: 5) {
-//                VStack(spacing: 5) {
-//                    ForEach((0..<3)) { number in
-//                        FlagView(country: self.game[number]) {
-//                            self.game.flagTapped(number)
-//                        }
-//                        .opacity(
-//                            !self.game.showCorrectFlag ||
-//                                self.game[number] == self.game.correctCountry
-//                                ? 1.0
-//                                : 0.3
-//                        )
-//                        .animation(.spring())
-//                    }
-//                }
-//                VStack(spacing: 5) {
-//                    ForEach((3..<6)) { number in
-//                        FlagView(country: self.game[number]) {
-//                            self.game.flagTapped(number)
-//                        }
-//                        .opacity(
-//                            !self.game.showCorrectFlag ||
-//                                self.game[number] == self.game.correctCountry
-//                                ? 1.0
-//                                : 0.3
-//                        )
-//                            .animation(.spring())
-//                    }
-//                }
-//            }.padding()
+            }.padding()
+
         }
     }
 }
@@ -236,7 +206,7 @@ class Game: ObservableObject {
 
 
     // MARK: - Private
-    private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US", "Ukraine"].shuffled()
+    private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US", "Ukraine", "Ukraine", "Ukraine", "Ukraine", "Ukraine", "Ukraine"].shuffled()
     private var correctAnswer = Int.random(in: 0...5)
 
     private func askQuestion() {

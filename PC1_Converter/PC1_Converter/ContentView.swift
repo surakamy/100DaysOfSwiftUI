@@ -19,10 +19,10 @@ struct UnitPicker: View {
 
         let p = Picker("Which Fruit", selection: $selected) {
              ForEach(units, id: \.self) { unit in
-                Text("\(unit.symbol)").font(.system(size: 40))
-             }
-            }.frame(width: 100).clipped()
-        //defaultWheelPickerItemHeight
+                Text("\(unit.symbol)")
+             }.font(.largeTitle)
+            }.pickerStyle(SegmentedPickerStyle())
+            //.frame(width: 100).clipped()
 
 
 
@@ -37,7 +37,7 @@ struct InputValue: View {
     var units: [UnitFoodCalories]
 
     var body: some View {
-        HStack {
+        VStack {
             TextField("Enter", text: $value)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.center)
@@ -56,12 +56,10 @@ struct OutputValue: View {
     var units: [UnitFoodCalories]
 
     var body: some View {
-        HStack {
-            Spacer()
+        VStack {
             Text("\(value)")
                 .multilineTextAlignment(.center)
                 .font(.system(size: 80))
-            Spacer()
             UnitPicker(selected: $selected, units: units)
         }//.padding()
     }
@@ -69,31 +67,52 @@ struct OutputValue: View {
 
 struct ContentView: View {
 
+
+
+
+
+
+
     @State var input = "1"
     @State var inputUnit = UnitFoodCalories.apple
     @State var outputUnit = UnitFoodCalories.apple
-
     var output: String {
         let a = Double(input) ?? 0
         let values_a = Measurement(value: a, unit: inputUnit)
         let values_b = values_a.converted(to: outputUnit)
-        print(UnitFoodCalories.formatter.string(from: values_b))
-        let b = values_b.value
-
-        return String(format: "%.1f", b)
+        let b = round(values_b.value, toNearest: 0.5)
+        let whole = round(values_b.value, toNearest: 1)
+        let andHalf = b - whole == 0.5
+        return String(format: "%.f", b) + (andHalf ? " ½" : "")
     }
 
     var units: [UnitFoodCalories] = [.apple, .banana, .orange, .pear]
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var body: some View {
         VStack {
             Text("How Much, eh?").font(.largeTitle)
-        VStack {
-            InputValue(value: $input, selected: $inputUnit, units: units)
-            Text("=").font(.largeTitle)
-            OutputValue(value: output, selected: $outputUnit, units: units)
-        }
+            VStack {
+                InputValue(value: $input, selected: $inputUnit, units: units)
+                    .padding().border(Color.secondary, width: 1)
+                Text("in").font(.largeTitle)
+                OutputValue(value: output, selected: $outputUnit, units: units)
+                    .padding().border(Color.secondary, width: 1)
+            }.padding()
 
         //.border(Color.green, width: 1).padding(EdgeInsets(top: 10, leading: 100, bottom: 100, trailing: 100))
         }

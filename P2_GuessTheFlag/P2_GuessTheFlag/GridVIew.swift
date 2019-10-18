@@ -56,3 +56,4 @@ struct BoardView<Content: View>: View {
         self.content = content
     }
 }
+

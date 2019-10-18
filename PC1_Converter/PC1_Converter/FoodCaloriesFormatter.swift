@@ -19,7 +19,6 @@ public final class UnitFoodCalories: Dimension {
 }
 
 
-//let ten_apple = Measurement(value: 10, unit: UnitFoodCalories.apple)
-//let bananas = ten_apple.converted(to: .banana)
-//
-//UnitFoodCalories.formatter.string(from: bananas)
+public func round(_ value: Double, toNearest: Double) -> Double {
+  return round(value / toNearest) * toNearest
+}
