@@ -8,6 +8,20 @@
 import Foundation
 import Combine
 
+enum Goal: CaseIterable {
+
+    case win
+    case lose
+    var description: String {
+        switch self {
+        case .win:
+            return "WIN"
+        case .lose:
+            return "LOSE"
+        }
+    }
+}
+
 enum Item: CaseIterable, Hashable, CustomStringConvertible {
 
 //    case rock
@@ -61,18 +75,7 @@ class Game: ObservableObject {
         self.score >= 0
     }
 
-    enum Goal: CaseIterable {
-        case win
-        case lose
-        var description: String {
-            switch self {
-            case .win:
-                return "WIN"
-            case .lose:
-                return "LOSE"
-            }
-        }
-    }
+
     @Published var currentGoal = Goal.win
     @Published var currentMove = Item.mouse
 

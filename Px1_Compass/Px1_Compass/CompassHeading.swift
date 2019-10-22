@@ -2,6 +2,32 @@ import Foundation
 import Combine
 import CoreLocation
 
+class CompassHeading2: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var degree: Double = .zero
+
+    private var locationManager = CLLocationManager()
+
+    override init() {
+        super.init()
+        setup()
+        [1].publisher
+    }
+
+    private func setup() {
+        self.locationManager.delegate = self
+        self.locationManager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.headingAvailable() {
+            self.locationManager.startUpdatingLocation()
+            self.locationManager.startUpdatingHeading()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        self.degree = -1 * newHeading.magneticHeading
+    }
+}
+
 class CompassHeading: NSObject, ObservableObject, CLLocationManagerDelegate {
     var objectWillChange = PassthroughSubject<Void, Never>()
     var degrees: Double = .zero {
