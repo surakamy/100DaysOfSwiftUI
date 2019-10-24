@@ -62,6 +62,10 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
 
+    var score: Int {
+        usedWords.reduce(0, { $0 + $1.count - 2 })
+    }
+
     var body: some View {
         NavigationView {
             List() {
@@ -72,7 +76,7 @@ struct ContentView: View {
                         .autocapitalization(.none)
                 }
 
-                Section(header: Text("Words")) {
+                Section(header: Text("Score is \(score)")) {
                     ForEach(usedWords) { w in
                         HStack {
                             Image(systemName: "\(w.count).circle")
@@ -115,6 +119,7 @@ struct ContentView: View {
         let allWords: [String] = ContentView.loadWords()
         rootWord = allWords.randomElement() ?? "silkworm"
         usedWords = [String]()
+        newWord = ""
     }
 
     private func addNewWord() {
@@ -159,7 +164,8 @@ struct ContentView: View {
     }
 
     private func isOriginal(word: String) -> Bool {
-        !usedWords.contains(word)
+        guard word != rootWord else { return false }
+        return !usedWords.contains(word)
     }
 
     private func isPossible(word: String) -> Bool {
