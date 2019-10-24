@@ -83,7 +83,15 @@ struct ContentView: View {
                 }
 
 
-            }.navigationBarTitle(rootWord)
+            }
+
+
+
+            .navigationBarTitle(rootWord)
+
+            .navigationBarItems(trailing: Button("Restart") {
+                self.startGame()
+            })
         }
 
 
@@ -106,6 +114,7 @@ struct ContentView: View {
     private func startGame() {
         let allWords: [String] = ContentView.loadWords()
         rootWord = allWords.randomElement() ?? "silkworm"
+        usedWords = [String]()
     }
 
     private func addNewWord() {
@@ -137,6 +146,11 @@ struct ContentView: View {
     }
 
     func isReal(word: String) -> Bool {
+
+        guard word.count >= 3 else {
+            return false
+        }
+
         let checker = UITextChecker()
         let range = NSRange(location: 0, length: word.utf16.count)
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
