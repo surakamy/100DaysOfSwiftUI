@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="22" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Attraction" representedClassName="MCAttraction" parentEntity="Place" syncable="YES"/>
+    <entity name="Attribute" representedClassName="MCAttribute" parentEntity="BaseItem" syncable="YES">
+        <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Category" inverseName="attributes" inverseEntity="Category" syncable="YES"/>
+        <relationship name="referenceItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="attributes" inverseEntity="ReferenceItem" syncable="YES"/>
+    </entity>
+    <entity name="BaseItem" representedClassName="BaseItem" isAbstract="YES" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" defaultValueString="none" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Cached" representedClassName="MCCached" syncable="YES">
+        <attribute name="routeAscent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="routeDescent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="routeDistance" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="routeIds" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="sectionIds" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="stageAscent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="stageDescent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="stageDistance" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="stageIds" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="Category" representedClassName="MCCategory" parentEntity="BaseItem" syncable="YES">
+        <attribute name="brief" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="names" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="attributes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Attribute" inverseName="categories" inverseEntity="Attribute" syncable="YES"/>
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="category" inverseEntity="ReferenceItem" syncable="YES"/>
+        <relationship name="types" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Type" inverseName="category" inverseEntity="Type" syncable="YES"/>
+    </entity>
+    <entity name="Community" representedClassName="MCCommunity" parentEntity="Location" syncable="YES">
+        <attribute name="population" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Contact" representedClassName="MCContact" parentEntity="BaseItem" syncable="YES">
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="referenceItem" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="contacts" inverseEntity="ReferenceItem" syncable="YES"/>
+    </entity>
+    <entity name="DefaultRoute" representedClassName="MCDefaultRoute" syncable="YES">
+        <attribute name="finishId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="startId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="routeItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DefRouteItem" inverseName="defaultRoute" inverseEntity="DefRouteItem" syncable="YES"/>
+    </entity>
+    <entity name="DefRouteItem" representedClassName="MCDefRouteItem" syncable="YES">
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="routeSectionId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="defaultRoute" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DefaultRoute" inverseName="routeItems" inverseEntity="DefaultRoute" syncable="YES"/>
+    </entity>
+    <entity name="Difficulty" representedClassName="MCDifficulty" parentEntity="BaseItem" syncable="YES">
+        <relationship name="routeSections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RouteSection" inverseName="difficulty" inverseEntity="RouteSection" syncable="YES"/>
+    </entity>
+    <entity name="Filter" representedClassName="MCFilter" isAbstract="YES" syncable="YES"/>
+    <entity name="FilterAttributes" representedClassName="MCFilterAttributes" parentEntity="FilterItem" syncable="YES"/>
+    <entity name="FilterCategory" representedClassName="MCFilterCategory" parentEntity="Filter" syncable="YES">
+        <attribute name="categoryId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="hasNotes" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isActive" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isNearMe" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isNearMe5" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isOnRoute" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="itemId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="filterItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FilterItem" inverseName="filterCategory" inverseEntity="FilterItem" syncable="YES"/>
+    </entity>
+    <entity name="FilterFlags" representedClassName="MCFilterFlags" parentEntity="FilterItem" syncable="YES"/>
+    <entity name="FilterItem" representedClassName="MCFilterItem" isAbstract="YES" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="filterCategory" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FilterCategory" inverseName="filterItems" inverseEntity="FilterCategory" syncable="YES"/>
+    </entity>
+    <entity name="FilterRanks" representedClassName="MCFilterRanks" parentEntity="FilterItem" syncable="YES"/>
+    <entity name="FilterRegions" parentEntity="FilterItem" syncable="YES"/>
+    <entity name="FilterTypes" representedClassName="MCFilterTypes" parentEntity="FilterItem" syncable="YES"/>
+    <entity name="Flag" representedClassName="MCFlag" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="tmp4" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemFlag" inverseName="flag" inverseEntity="ItemFlag" syncable="YES"/>
+        <relationship name="userItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserItem" inverseName="flag" inverseEntity="UserItem" syncable="YES"/>
+    </entity>
+    <entity name="ItemFavorite" representedClassName="MCItemFavorite" syncable="YES">
+        <attribute name="referenceId" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" versionHashModifier="5" syncable="YES"/>
+    </entity>
+    <entity name="ItemFlag" representedClassName="MCItemFlag" syncable="YES">
+        <attribute name="referenceId" attributeType="Integer 32" defaultValueString="0" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <relationship name="flag" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Flag" inverseName="referenceItems" inverseEntity="Flag" syncable="YES"/>
+    </entity>
+    <entity name="ItemNote" representedClassName="MCItemNote" syncable="YES">
+        <attribute name="added" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="referenceId" attributeType="Integer 32" defaultValueString="0" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <attribute name="sectionIdentifier" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="userItem" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="UserItem" inverseName="notes" inverseEntity="UserItem" syncable="YES"/>
+    </entity>
+    <entity name="ItemRank" representedClassName="MCItemRank" syncable="YES">
+        <attribute name="referenceId" attributeType="Integer 32" defaultValueString="0" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <relationship name="rank" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Rank" inverseName="referenceItems" inverseEntity="Rank" syncable="YES"/>
+    </entity>
+    <entity name="Location" representedClassName="MCLocation" isAbstract="YES" parentEntity="ReferenceItem" versionHashModifier="5" syncable="YES">
+        <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="scopeMax" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="scopeMin" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="speed" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="zoom" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="finishLocations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RouteSection" inverseName="finish" inverseEntity="RouteSection" syncable="YES"/>
+        <relationship name="startLocations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RouteSection" inverseName="start" inverseEntity="RouteSection" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="latitude"/>
+                <index value="longitude"/>
+                <index value="scopeMax"/>
+                <index value="scopeMin"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Meta" representedClassName="MCMeta" syncable="YES">
+        <attribute name="colBaseLayerBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colBaseLayerText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colBaseLayerTitle" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colCompassBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colCompassBearingText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colCompassForeground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colElevationBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colElevationChart" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colElevationRangeBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colElevationRangeText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colElevationText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colGridBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colGridIcon" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colGridText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colInteractiveRowBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colInteractiveRowText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colListingBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colListingText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colMainMenuBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colMainMenuText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colMajorIconBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colMajorIconForeground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colMajorIconText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colNarrativeBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colNarrativeText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colNarrativeTitle" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colNavBarBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colNavBarIcon" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colNavBarText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colRouteRowEvenBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colRouteRowEvenText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colRouteRowOddBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colRouteRowOddText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colStatusBarBackground" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colStatusBarIcon" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colStatusBarText" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colTrackLineRoute" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colTrackLineSection" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="colTrackLineStage" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="params" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="updateUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="versionDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="versionMajor" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="versionMinor" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Place" representedClassName="MCPlace" isAbstract="YES" parentEntity="Location" syncable="YES">
+        <attribute name="hours" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rates" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="seasonality" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Poi" representedClassName="MCPoi" parentEntity="Place" syncable="YES"/>
+    <entity name="Rank" representedClassName="MCRank" syncable="YES">
+        <attribute name="categoryId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemRank" inverseName="rank" inverseEntity="ItemRank" syncable="YES"/>
+    </entity>
+    <entity name="ReferenceItem" representedClassName="MCReferenceItem" isAbstract="YES" versionHashModifier="9" syncable="YES">
+        <attribute name="completnessAccuracy" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="contentAccuracy" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="context" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coordinatesAccuracy" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="imageSliderId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastVerified" optional="YES" attributeType="Date" defaultDateTimeInterval="435056400" defaultValueString="&quot;now&quot;" syncable="YES"/>
+        <attribute name="mapId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="moreInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="research" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toDo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wordPressId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="attributes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Attribute" inverseName="referenceItem" inverseEntity="Attribute" syncable="YES"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="referenceItems" inverseEntity="Category" syncable="YES"/>
+        <relationship name="contacts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contact" inverseName="referenceItem" inverseEntity="Contact" syncable="YES"/>
+        <relationship name="regions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Region" inverseName="referenceItems" inverseEntity="Region" syncable="YES"/>
+        <relationship name="resources" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="resources" inverseEntity="ReferenceItem" syncable="YES"/>
+        <relationship name="status" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Status" inverseName="referenceItems" inverseEntity="Status" syncable="YES"/>
+        <relationship name="type" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Type" inverseName="referenceItems" inverseEntity="Type" syncable="YES"/>
+    </entity>
+    <entity name="Region" representedClassName="MCRegion" parentEntity="BaseItem" syncable="YES">
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="regions" inverseEntity="ReferenceItem" syncable="YES"/>
+    </entity>
+    <entity name="Route" representedClassName="MCRoute" parentEntity="UserItem" versionHashModifier="8" syncable="YES">
+        <attribute name="distanceAvarage" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="finishId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isActive" optional="YES" attributeType="Boolean" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="regionsIds" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="routeDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="activeRouteItem" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RouteItem" inverseName="route" inverseEntity="RouteItem" syncable="YES"/>
+        <relationship name="manualRouteItem" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RouteItem" inverseName="routeManual" inverseEntity="RouteItem" syncable="YES"/>
+        <relationship name="prevRouteItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RouteItem" inverseName="routePrev" inverseEntity="RouteItem" syncable="YES"/>
+        <relationship name="routeStages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RouteStage" inverseName="route" inverseEntity="RouteStage" syncable="YES"/>
+        <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserType" inverseName="userItem" inverseEntity="UserType" syncable="YES"/>
+    </entity>
+    <entity name="RouteItem" representedClassName="MCRouteItem" parentEntity="UserItem" syncable="YES">
+        <attribute name="distance" optional="YES" transient="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="reverted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="routeNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="routeSectionId" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" versionHashModifier="5" syncable="YES"/>
+        <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <relationship name="route" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="activeRouteItem" inverseEntity="Route" syncable="YES"/>
+        <relationship name="routeManual" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="manualRouteItem" inverseEntity="Route" syncable="YES"/>
+        <relationship name="routePrev" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="prevRouteItem" inverseEntity="Route" syncable="YES"/>
+        <relationship name="routeStage" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RouteStage" inverseName="routeItems" inverseEntity="RouteStage" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="routeNumber"/>
+                <index value="routeSectionId"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="RouteSection" representedClassName="MCRouteSection" parentEntity="ReferenceItem" syncable="YES">
+        <attribute name="ascent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="descent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPublic" optional="YES" attributeType="Boolean" indexed="YES" syncable="YES"/>
+        <attribute name="isRouteSection" optional="YES" attributeType="Boolean" defaultValueString="YES" indexed="YES" syncable="YES"/>
+        <relationship name="difficulty" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Difficulty" inverseName="routeSections" inverseEntity="Difficulty" syncable="YES"/>
+        <relationship name="finish" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="finishLocations" inverseEntity="Location" syncable="YES"/>
+        <relationship name="start" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="startLocations" inverseEntity="Location" syncable="YES"/>
+        <relationship name="terrain" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Terrain" inverseName="referenceItems" inverseEntity="Terrain" syncable="YES"/>
+        <relationship name="trackpoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackPoint" inverseName="track" inverseEntity="TrackPoint" syncable="YES"/>
+    </entity>
+    <entity name="RouteStage" representedClassName="MCRouteStage" parentEntity="UserItem" syncable="YES">
+        <attribute name="ascent" optional="YES" transient="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="descent" optional="YES" transient="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="distance" optional="YES" transient="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="route" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="routeStages" inverseEntity="Route" syncable="YES"/>
+        <relationship name="routeItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="RouteItem" inverseName="routeStage" inverseEntity="RouteItem" syncable="YES"/>
+    </entity>
+    <entity name="Service" representedClassName="MCService" parentEntity="Place" syncable="YES"/>
+    <entity name="Shelter" representedClassName="MCShelter" parentEntity="Place" syncable="YES">
+        <attribute name="attribute" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+    </entity>
+    <entity name="Status" representedClassName="MCStatus" parentEntity="BaseItem" syncable="YES">
+        <attribute name="exported" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="status" inverseEntity="ReferenceItem" syncable="YES"/>
+    </entity>
+    <entity name="Terrain" representedClassName="MCTerrain" parentEntity="BaseItem" syncable="YES">
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RouteSection" inverseName="terrain" inverseEntity="RouteSection" syncable="YES"/>
+    </entity>
+    <entity name="TrackPoint" representedClassName="MCTrackPoint" versionHashModifier="8" syncable="YES">
+        <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="route" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <relationship name="track" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RouteSection" inverseName="trackpoints" inverseEntity="RouteSection" syncable="YES"/>
+    </entity>
+    <entity name="Type" representedClassName="MCType" parentEntity="BaseItem" syncable="YES">
+        <attribute name="scopeMax" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="scopeMin" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="zoom" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="category" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="types" inverseEntity="Category" syncable="YES"/>
+        <relationship name="referenceItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReferenceItem" inverseName="type" inverseEntity="ReferenceItem" syncable="YES"/>
+    </entity>
+    <entity name="UserItem" representedClassName="MCUserItem" isAbstract="YES" syncable="YES">
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
+        <attribute name="numberId" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="favs" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ItemFavorite" syncable="YES"/>
+        <relationship name="flag" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Flag" inverseName="userItems" inverseEntity="Flag" syncable="YES"/>
+        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemNote" inverseName="userItem" inverseEntity="ItemNote" syncable="YES"/>
+    </entity>
+    <entity name="UserType" representedClassName="MCUserType" parentEntity="UserItem" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="userItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="type" inverseEntity="Route" syncable="YES"/>
+    </entity>
+    <configuration name="Caminopedia">
+        <memberEntity name="Attribute"/>
+        <memberEntity name="Category"/>
+        <memberEntity name="Community"/>
+        <memberEntity name="Contact"/>
+        <memberEntity name="Location"/>
+        <memberEntity name="ReferenceItem"/>
+        <memberEntity name="Shelter"/>
+        <memberEntity name="Type"/>
+        <memberEntity name="RouteSection"/>
+        <memberEntity name="Attraction"/>
+        <memberEntity name="Service"/>
+        <memberEntity name="TrackPoint"/>
+        <memberEntity name="Terrain"/>
+        <memberEntity name="Difficulty"/>
+        <memberEntity name="Status"/>
+        <memberEntity name="BaseItem"/>
+        <memberEntity name="Poi"/>
+        <memberEntity name="DefaultRoute"/>
+        <memberEntity name="DefRouteItem"/>
+        <memberEntity name="Meta"/>
+        <memberEntity name="Region"/>
+    </configuration>
+    <configuration name="UserData">
+        <memberEntity name="Flag"/>
+        <memberEntity name="Rank"/>
+        <memberEntity name="ItemNote"/>
+        <memberEntity name="ItemRank"/>
+        <memberEntity name="ItemFlag"/>
+        <memberEntity name="Route"/>
+        <memberEntity name="RouteItem"/>
+        <memberEntity name="UserItem"/>
+        <memberEntity name="RouteStage"/>
+        <memberEntity name="Filter"/>
+        <memberEntity name="FilterAttributes"/>
+        <memberEntity name="FilterCategory"/>
+        <memberEntity name="FilterFlags"/>
+        <memberEntity name="FilterItem"/>
+        <memberEntity name="FilterRanks"/>
+        <memberEntity name="FilterTypes"/>
+        <memberEntity name="ItemFavorite"/>
+        <memberEntity name="Cached"/>
+        <memberEntity name="UserType"/>
+        <memberEntity name="FilterRegions"/>
+    </configuration>
+    <elements>
+        <element name="Attraction" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="Attribute" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="BaseItem" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="Cached" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="Category" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Community" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="Contact" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="DefaultRoute" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="DefRouteItem" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Difficulty" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="Filter" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="FilterAttributes" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="FilterCategory" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="FilterFlags" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="FilterItem" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="FilterRanks" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="FilterRegions" positionX="9" positionY="153" width="128" height="45"/>
+        <element name="FilterTypes" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="Flag" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="ItemFavorite" positionX="0" positionY="0" width="128" height="58"/>
+        <element name="ItemFlag" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="ItemNote" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="ItemRank" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Location" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="Meta" positionX="0" positionY="0" width="128" height="705"/>
+        <element name="Place" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Poi" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="Rank" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="ReferenceItem" positionX="0" positionY="0" width="128" height="403"/>
+        <element name="Region" positionX="9" positionY="153" width="128" height="60"/>
+        <element name="Route" positionX="0" positionY="0" width="128" height="270"/>
+        <element name="RouteItem" positionX="0" positionY="0" width="128" height="178"/>
+        <element name="RouteSection" positionX="0" positionY="0" width="128" height="225"/>
+        <element name="RouteStage" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Service" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="Shelter" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="Status" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Terrain" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="TrackPoint" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Type" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="UserItem" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="UserType" positionX="9" positionY="153" width="128" height="88"/>
+    </elements>
+</model>

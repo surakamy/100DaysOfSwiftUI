@@ -10,7 +10,6 @@ class CompassHeading2: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         setup()
-        [1].publisher
     }
 
     private func setup() {
